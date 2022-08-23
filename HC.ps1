@@ -1,9 +1,27 @@
-$Base  = Read-Host "Enter the Base URL as like https://cyberark.ekaynar.local"
+$Base  = Read-Host "Enter Your CyberArk Base URL (as like https://cyberark.ekaynar.local)
+"
 
-$Url1 = "$Base/PasswordVault/api/Auth/cyberark/Logon"
+ $AuthX = Read-Host "Select the Connection Type:
+ Enter 1 for CyberArk
+ Enter 2 for LDAP
+ Enter 3 for Radius
+ YOUR CHOICE: "
+
+if ($AuthX -eq 1) {
+ $Url = "$Base/PasswordVault/api/Auth/cyberark/Logon"
+}
+elseif ($AuthX -eq 2) {
+  $Url = "$Base/PasswordVault/api/Auth/LDAP/Logon"
+}
+elseif ($AuthX -eq 3) {
+  $Url = "$Base/PasswordVault/api/Auth/Radius/Logon"
+  }
+else {
+ $Url = "FCKU"
+ }
 
 $Body = @{
-    'Username' = Read-Host "Please enter your CyberArk User"
+    'Username' = Read-Host "Please enter your Authentication User"
     'password' = Read-Host "Please enter your password" -AsSecureString
     "concurrentSession" = "true"
 }
@@ -12,7 +30,7 @@ $Body.password = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.Int
 
 $Header = @{
      'ContentType' = 'application/json'
-     'Authorization' = Invoke-RestMethod -Uri $Url1 -Method Post -Body $Body
+     'Authorization' = Invoke-RestMethod -Uri $Url -Method Post -Body $Body
 }
 
 "PSM Servers" | Out-File C:\cyberark.txt -Append
