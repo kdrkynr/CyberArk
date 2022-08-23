@@ -1,5 +1,5 @@
 $Base  = Read-Host "Enter Your CyberArk Base URL (as like https://cyberark.ekaynar.local)
-"
+>"
 
  $AuthX = Read-Host "Select the Connection Type:
  Enter 1 for CyberArk
